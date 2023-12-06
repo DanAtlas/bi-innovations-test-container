@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+import React, { lazy, Suspense } from 'react';
 import './App.css';
+
+const Form = lazy(() => import('ContentApp/Form'));
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <h1>Контакты</h1>
+        <p>ул. Сыганак, 62/3, БЦ «Viva Plaza»</p>
+      </div>
+      <Suspense fallback={<div>Loading Header...</div>}>
+        <Form />
+      </Suspense>
     </div>
   );
 }
