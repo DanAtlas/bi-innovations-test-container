@@ -3,7 +3,10 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const { dependencies } = require("./package.json");
 
 module.exports = {
-  entry: "./entry.js",
+  entry: "./entry.ts",
+  output: {
+    filename: "main.js"
+  },
   mode: "development",
   devServer: {
     port: 3000,
@@ -11,22 +14,26 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)?$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: "babel-loader",
-            options: {
-              presets: ["@babel/preset-env", "@babel/preset-react"],
-            },
-          },
-        ],
+        test: /\.(ts|tsx)$/i,
+        loader: "ts-loader",
+        exclude: ['/node_modules/'],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ["css-loader", "postcss-loader", "sass-loader"],
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ["css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        type: "asset",
       },
     ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js", ".jsx", ".json"],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -50,8 +57,5 @@ module.exports = {
       },
     }),
   ],
-  resolve: {
-    extensions: [".js", ".jsx"],
-  },
   target: "web",
 };
